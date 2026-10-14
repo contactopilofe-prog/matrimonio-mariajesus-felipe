@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>María Jesús & Felipe — Nos casamos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #FAF8F5; color: #2C2A29; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .bg-placeholder { background-color: #d1fae5; border: 2px dashed #10b981; display: flex; align-items: center; justify-content: center; color: #065f46; font-weight: 500; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- HERO SECTION CON CONTADOR -->
+    <header class="min-h-screen flex flex-col items-center justify-between py-12 px-6 text-center max-w-md mx-auto">
+        <div class="space-y-2">
+            <span class="text-xs uppercase tracking-widest text-emerald-800 font-medium">Nos casamos</span>
+            <h1 class="font-serif text-5xl md:text-6xl font-normal tracking-wide text-stone-800">María Jesús</h1>
+            <span class="font-serif text-3xl italic text-emerald-700">&</span>
+            <h1 class="font-serif text-5xl md:text-6xl font-normal tracking-wide text-stone-800">Felipe</h1>
+            <p class="text-xs uppercase tracking-widest text-stone-500 pt-4">Sábado 10 de Abril, 2027 · El Monte</p>
+        </div>
+
+        <!-- FOTO PRINCIPAL (CUADRO VERDE PROVISIONAL) -->
+        <div class="w-72 h-96 my-6 rounded-2xl shadow-md bg-placeholder">
+            <span>Foto Principal<br>(Espacio Verde)</span>
+        </div>
+
+        <!-- CONTADOR REGRESIVO -->
+        <div id="countdown" class="grid grid-cols-4 gap-2 text-center py-4 px-6 bg-white/60 backdrop-blur rounded-xl shadow-sm border border-stone-200 w-full text-stone-800">
+            <div><span id="days" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Días</span></div>
+            <div><span id="hours" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Horas</span></div>
+            <div><span id="minutes" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Min</span></div>
+            <div><span id="seconds" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Seg</span></div>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto px-6 space-y-16 pb-20">
+
+        <!-- CUÁNDO Y DÓNDE -->
+        <section class="text-center space-y-8">
+            <h2 class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Cuándo y Dónde</h2>
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 space-y-4">
+                <h3 class="font-serif text-3xl text-stone-800">El gran día</h3>
+                <p class="text-stone-600 font-medium">Ceremonia y Fiesta en el mismo lugar</p>
+                <div class="pt-2 text-sm text-stone-600 space-y-1">
+                    <p class="font-semibold text-stone-800">Condominio Los Huinganes, Parcela 4</p>
+                    <p>El Monte, Región Metropolitana</p>
+                    <p class="text-emerald-700 font-medium pt-1">17:00 hrs</p>
+                </div>
+                <div class="flex justify-center gap-4 pt-2">
+                    <a href="https://maps.google.com/?q=-33.654660713249974,-71.01946515060315" target="_blank" class="px-4 py-2 bg-stone-900 text-white rounded-lg text-xs uppercase tracking-wider">Maps</a>
+                    <a href="https://waze.com/ul?ll=-33.654660713249974,-71.01946515060315&navigate=yes" target="_blank" class="px-4 py-2 bg-stone-900 text-white rounded-lg text-xs uppercase tracking-wider">Waze</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRONOGRAMA -->
+        <section class="space-y-6">
+            <div class="text-center">
+                <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Programa</span>
+                <h2 class="font-serif text-3xl text-stone-800 mt-1">Cronograma del día</h2>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 space-y-6 text-sm">
+                <div class="border-l-2 border-emerald-700 pl-4">
+                    <span class="text-xs text-emerald-800 font-semibold">17:00 HRS</span>
+                    <h4 class="font-bold text-stone-800">Ceremonia</h4>
+                    <p class="text-stone-600 text-xs">En la misma parcela</p>
+                </div>
+                <div class="border-l-2 border-stone-300 pl-4">
+                    <span class="text-xs text-stone-500 font-semibold">18:00 HRS</span>
+                    <h4 class="font-bold text-stone-800">Cóctel</h4>
+                    <p class="text-stone-600 text-xs">Bienvenida al aire libre</p>
+                </div>
+                <div class="border-l-2 border-stone-300 pl-4">
+                    <span class="text-xs text-stone-500 font-semibold">20:00 HRS</span>
+                    <h4 class="font-bold text-stone-800">Cena</h4>
+                    <p class="text-stone-600 text-xs">Nos sentamos a celebrar juntos</p>
+                </div>
+                <div class="border-l-2 border-stone-300 pl-4">
+                    <span class="text-xs text-stone-500 font-semibold">21:30 HRS</span>
+                    <h4 class="font-bold text-stone-800">Fiesta</h4>
+                    <p class="text-stone-600 text-xs">A bailar hasta que se haga de día</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CÓDIGO DE VESTIMENTA -->
+        <section class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 text-center space-y-4">
+            <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Código de vestimenta</span>
+            <h2 class="font-serif text-3xl text-stone-800">Dress code</h2>
+            <p class="font-bold text-stone-800 text-lg">Formal</p>
+            <p class="text-stone-600 text-sm">Nos encantaría verlos elegantes y, sobre todo, cómodos para bailar hasta tarde.</p>
+            <div class="bg-stone-50 p-4 rounded-xl text-xs text-stone-600 space-y-2 text-left">
+                <p>🌿 **Un consejo:** el cóctel será al aire libre sobre pasto. Recomendamos taco ancho o cómodo. Además, recuerda llevar algo abrigado para la noche.</p>
+                <p>⚠️ **Importante:** pedimos amablemente a las mujeres no asistir de blanco ni tonos parecidos.</p>
+            </div>
+        </section>
+
+        <!-- CONFIRMACIÓN (RSVP - GOOGLE SHEETS) -->
+        <section class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 text-center space-y-4" id="rsvp">
+            <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Confirmación</span>
+            <h2 class="font-serif text-3xl text-stone-800">¿Nos acompañas?</h2>
+            <p class="text-xs text-stone-500">Confirmar antes del 10 de Marzo de 2027</p>
+            
+            <!-- Formulario interactivo conectado a Google Sheets -->
+            <form id="rsvpForm" action="TU_URL_DE_GOOGLE_SCRIPT_AQUI" method="POST" class="space-y-4 text-left pt-2">
+                <div>
+                    <label class="block text-xs font-semibold text-stone-700 mb-1">Tu Nombre Completo</label>
+                    <input type="text" name="nombre" required placeholder="Ej: Camila Ríos" class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-emerald-700">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-stone-700 mb-1">¿Asistirás al evento?</label>
+                    <select name="asistencia" id="asistenciaSelect" class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm bg-white focus:outline-none focus:border-emerald-700" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="Sí">Sí, ahí estaré</option>
+                        <option value="No">No podré asistir</option>
+                    </select>
+                </div>
+                <div id="dietContainer" class="hidden space-y-2">
+                    <label class="block text-xs font-semibold text-stone-700 mb-1">Observaciones alimenticias (Vegetariano, vegano, alérgico, etc.)</label>
+                    <textarea name="alimentacion" placeholder="Indícanos si tienes alguna restricción..." class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-emerald-700 h-20"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-emerald-800 text-white rounded-lg text-xs uppercase tracking-wider font-semibold hover:bg-emerald-900 transition">Enviar confirmación</button>
+            </form>
+        </section>
+
+        <!-- LISTA DE NOVIOS -->
+        <section class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 text-center space-y-4">
+            <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Lista de Novios</span>
+            <h2 class="font-serif text-3xl text-stone-800">Un regalo</h2>
+            <p class="text-stone-600 text-sm">Tu presencia ese día es lo más importante. Próximamente habilitaremos el botón con nuestra lista de regalos para la nueva casa.</p>
+        </section>
+
+        <!-- PREGUNTAS FRECUENTES -->
+        <section class="space-y-4">
+            <div class="text-center">
+                <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Dudas</span>
+                <h2 class="font-serif text-3xl text-stone-800 mt-1">Preguntas frecuentes</h2>
+            </div>
+            <div class="space-y-2 text-sm">
+                <details class="bg-white p-4 rounded-xl border border-stone-100 cursor-pointer">
+                    <summary class="font-semibold text-stone-800">¿Hay estacionamiento?</summary>
+                    <p class="text-stone-600 text-xs mt-2">Sí, dentro de la parcela habrá espacio para todos los invitados.</p>
+                </details>
+                <details class="bg-white p-4 rounded-xl border border-stone-100 cursor-pointer">
+                    <summary class="font-semibold text-stone-800">¿Puedo llevar a mis hijos?</summary>
+                    <p class="text-stone-600 text-xs mt-2">Queremos que los padres disfruten de esta celebración al máximo, por lo que este evento será exclusivamente para adultos.</p>
+                </details>
+                <details class="bg-white p-4 rounded-xl border border-stone-100 cursor-pointer">
+                    <summary class="font-semibold text-stone-800">¿Hasta qué hora será la fiesta?</summary>
+                    <p class="text-stone-600 text-xs mt-2">¡Hasta que se haga de día!</p>
+                </details>
+            </div>
+        </section>
+
+        <!-- CIERRE CON FOTO -->
+        <footer class="text-center space-y-6 pt-10">
+            <div class="w-36 h-36 mx-auto rounded-full shadow-md bg-placeholder text-xs">
+                <span>Foto Cierre<br>(Cuadrada)</span>
+            </div>
+            <div>
+                <h3 class="font-serif text-2xl text-stone-800">María Jesús & Felipe</h3>
+                <p class="text-xs tracking-widest text-stone-500 mt-1">10 · 04 · 2027</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- SCRIPT DE CUENTA REGRESIVA Y FORMULARIO -->
+    <script>
+        // Cuenta regresiva para el 10 de abril de 2027 a las 17:00 hrs
+        const eventDate = new Date("April 10, 2027 17:00:00").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = eventDate - now;
+            if (diff > 0) {
+                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60 * 60 / 60));
+                document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Mostrar caja de alimentación solo si dice que sí
+        const asistenciaSelect = document.getElementById("asistenciaSelect");
+        const dietContainer = document.getElementById("dietContainer");
+        asistenciaSelect.addEventListener("change", function() {
+            if (this.value === "Sí") {
+                dietContainer.classList.remove("hidden");
+            } else {
+                dietContainer.classList.add("hidden");
+            }
+        });
+    </script>
+</body>
+</html>
