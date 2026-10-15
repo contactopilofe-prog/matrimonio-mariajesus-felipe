@@ -9,37 +9,48 @@
     <style>
         body { font-family: 'Montserrat', sans-serif; background-color: #FAF8F5; color: #2C2A29; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
-        .bg-placeholder { background-color: #d1fae5; border: 2px dashed #10b981; display: flex; align-items: center; justify-content: center; color: #065f46; font-weight: 500; }
+        @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+        .animate-bounce-slow {
+            animation: bounceSlow 2s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- HERO SECTION CON CONTADOR -->
-    <header class="min-h-screen flex flex-col items-center justify-between py-12 px-6 text-center max-w-md mx-auto">
-        <div class="space-y-2">
-            <span class="text-xs uppercase tracking-widest text-emerald-800 font-medium">Nos casamos</span>
-            <h1 class="font-serif text-5xl md:text-6xl font-normal tracking-wide text-stone-800">Mariajesús</h1>
-            <span class="font-serif text-3xl italic text-emerald-700">&</span>
-            <h1 class="font-serif text-5xl md:text-6xl font-normal tracking-wide text-stone-800">Felipe</h1>
-            <p class="text-xs uppercase tracking-widest text-stone-500 pt-4">Sábado 10 de Abril, 2027 · El Monte</p>
+    <!-- HERO SECTION CON FONDO DE IMAGEN A TAMAÑO COMPLETO -->
+    <header class="relative min-h-screen flex flex-col justify-between py-12 px-6 text-center text-white bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.ibb.co/d0G0hPt0/foto-2.jpg');">
+        
+        <!-- NOMBRES Y FECHA ARRIBA -->
+        <div class="space-y-2 pt-6 z-10">
+            <span class="text-xs uppercase tracking-widest font-medium opacity-90">Nos casamos</span>
+            <h1 class="font-serif text-5xl md:text-6xl font-normal tracking-wide">Mariajesús</h1>
+            <span class="font-serif text-3xl italic opacity-90">&</span>
+            <h1 class="font-serif text-5xl md:text-6xl font-normal tracking-wide">Felipe</h1>
+            <p class="text-xs uppercase tracking-widest opacity-90 pt-4">Sábado 10 de Abril, 2027 · El Monte</p>
         </div>
 
-     <!-- FOTO PRINCIPAL REAL -->
-        <div class="w-72 h-96 my-6 rounded-2xl shadow-md overflow-hidden">
-            <img src="https://i.ibb.co/d0G0hPt0/foto-2.jpg" alt="María Jesús y Felipe" class="w-full h-full object-cover">
-        </div>
-     
+        <!-- CONTADOR Y FLECHA ABAJO -->
+        <div class="w-full max-w-md mx-auto space-y-6 z-10">
+            <div id="countdown" class="grid grid-cols-4 gap-2 text-center py-4 px-6 bg-black/30 backdrop-blur-md rounded-xl border border-white/20 text-white">
+                <div><span id="days" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Días</span></div>
+                <div><span id="hours" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Horas</span></div>
+                <div><span id="minutes" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Min</span></div>
+                <div><span id="seconds" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Seg</span></div>
+            </div>
 
-        <!-- CONTADOR REGRESIVO -->
-        <div id="countdown" class="grid grid-cols-4 gap-2 text-center py-4 px-6 bg-white/60 backdrop-blur rounded-xl shadow-sm border border-stone-200 w-full text-stone-800">
-            <div><span id="days" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Días</span></div>
-            <div><span id="hours" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Horas</span></div>
-            <div><span id="minutes" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Min</span></div>
-            <div><span id="seconds" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase text-stone-500">Seg</span></div>
+            <!-- FLECHA SUAVE HACIA ABAJO -->
+            <div class="flex justify-center pb-2">
+                <svg class="w-6 h-6 text-white animate-bounce-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-md mx-auto px-6 space-y-16 pb-20">
+    <main class="max-w-md mx-auto px-6 space-y-16 pb-20 pt-10">
 
         <!-- CUÁNDO Y DÓNDE -->
         <section class="text-center space-y-8">
@@ -59,33 +70,65 @@
             </div>
         </section>
 
-        <!-- CRONOGRAMA -->
+        <!-- CRONOGRAMA CON CÍRCULOS E ICONOS -->
         <section class="space-y-6">
             <div class="text-center">
                 <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Programa</span>
                 <h2 class="font-serif text-3xl text-stone-800 mt-1">Cronograma del día</h2>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 space-y-6 text-sm">
-                <div class="border-l-2 border-emerald-700 pl-4">
-                    <span class="text-xs text-emerald-800 font-semibold">17:00 HRS</span>
-                    <h4 class="font-bold text-stone-800">Ceremonia</h4>
-                    <p class="text-stone-600 text-xs">En la misma parcela</p>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 space-y-8 text-sm relative">
+                
+                <!-- Línea vertical conectora -->
+                <div class="absolute left-9 top-10 bottom-10 w-0.5 bg-stone-200"></div>
+
+                <!-- Ceremonia -->
+                <div class="flex items-start gap-4 relative">
+                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0 z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-rose-700 font-semibold uppercase tracking-wider">17:00 HRS</span>
+                        <h4 class="font-serif text-lg font-bold text-stone-800">Ceremonia</h4>
+                        <p class="text-stone-600 text-xs">En la misma parcela</p>
+                    </div>
                 </div>
-                <div class="border-l-2 border-stone-300 pl-4">
-                    <span class="text-xs text-stone-500 font-semibold">18:00 HRS</span>
-                    <h4 class="font-bold text-stone-800">Cóctel</h4>
-                    <p class="text-stone-600 text-xs">Bienvenida al aire libre</p>
+
+                <!-- Cóctel -->
+                <div class="flex items-start gap-4 relative">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0 z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-amber-700 font-semibold uppercase tracking-wider">18:00 HRS</span>
+                        <h4 class="font-serif text-lg font-bold text-stone-800">Cóctel</h4>
+                        <p class="text-stone-600 text-xs">Bienvenida al aire libre</p>
+                    </div>
                 </div>
-                <div class="border-l-2 border-stone-300 pl-4">
-                    <span class="text-xs text-stone-500 font-semibold">20:00 HRS</span>
-                    <h4 class="font-bold text-stone-800">Cena</h4>
-                    <p class="text-stone-600 text-xs">Nos sentamos a celebrar juntos</p>
+
+                <!-- Cena -->
+                <div class="flex items-start gap-4 relative">
+                    <div class="w-10 h-10 rounded-full bg-yellow-50 border border-yellow-200 text-yellow-700 flex items-center justify-center shrink-0 z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-yellow-700 font-semibold uppercase tracking-wider">20:00 HRS</span>
+                        <h4 class="font-serif text-lg font-bold text-stone-800">Cena</h4>
+                        <p class="text-stone-600 text-xs">Nos sentamos a celebrar juntos</p>
+                    </div>
                 </div>
-                <div class="border-l-2 border-stone-300 pl-4">
-                    <span class="text-xs text-stone-500 font-semibold">21:30 HRS</span>
-                    <h4 class="font-bold text-stone-800">Fiesta</h4>
-                    <p class="text-stone-600 text-xs">A bailar hasta que se haga de día</p>
+
+                <!-- Fiesta -->
+                <div class="flex items-start gap-4 relative">
+                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0 z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-rose-700 font-semibold uppercase tracking-wider">21:30 HRS</span>
+                        <h4 class="font-serif text-lg font-bold text-stone-800">Fiesta</h4>
+                        <p class="text-stone-600 text-xs">A bailar hasta que se haga de día</p>
+                    </div>
                 </div>
+
             </div>
         </section>
 
@@ -96,18 +139,17 @@
             <p class="font-bold text-stone-800 text-lg">Formal</p>
             <p class="text-stone-600 text-sm">Nos encantaría verlos elegantes y, sobre todo, cómodos para bailar hasta tarde.</p>
             <div class="bg-stone-50 p-4 rounded-xl text-xs text-stone-600 space-y-2 text-left">
-                <p>🌿 **Un consejo:** el cóctel será al aire libre sobre pasto. Recomendamos taco ancho o cómodo. Además, recuerda llevar algo abrigado para la noche.</p>
-                <p>⚠️ **Importante:** pedimos amablemente a las mujeres no asistir de blanco ni tonos parecidos.</p>
+                <p>🌿 <strong>Un consejo:</strong> el cóctel será al aire libre sobre pasto. Recomendamos taco ancho o cómodo. Además, recuerda llevar algo abrigado para la noche.</p>
+                <p>⚠️ <strong>Importante:</strong> pedimos amablemente a las mujeres no asistir de blanco ni tonos parecidos.</p>
             </div>
         </section>
 
-        <!-- CONFIRMACIÓN (RSVP - GOOGLE SHEETS) -->
+        <!-- CONFIRMACIÓN (RSVP) -->
         <section class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 text-center space-y-4" id="rsvp">
             <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Confirmación</span>
             <h2 class="font-serif text-3xl text-stone-800">¿Nos acompañas?</h2>
             <p class="text-xs text-stone-500">Confirmar antes del 10 de Marzo de 2027</p>
             
-            <!-- Formulario interactivo conectado a Google Sheets -->
             <form id="rsvpForm" action="TU_URL_DE_GOOGLE_SCRIPT_AQUI" method="POST" class="space-y-4 text-left pt-2">
                 <div>
                     <label class="block text-xs font-semibold text-stone-700 mb-1">Tu Nombre Completo</label>
@@ -158,13 +200,13 @@
             </div>
         </section>
 
-        <!-- CIERRE CON FOTO -->
+        <!-- CIERRE -->
         <footer class="text-center space-y-6 pt-10">
-            <div class="w-36 h-36 mx-auto rounded-full shadow-md bg-placeholder text-xs">
-                <span>Foto Cierre<br>(Cuadrada)</span>
+            <div class="w-36 h-36 mx-auto rounded-full shadow-md bg-emerald-100 flex items-center justify-center text-xs text-emerald-800 font-medium">
+                <span>Foto Cierre</span>
             </div>
             <div>
-                <h3 class="font-serif text-2xl text-stone-800">María Jesús & Felipe</h3>
+                <h3 class="font-serif text-2xl text-stone-800">Mariajesús & Felipe</h3>
                 <p class="text-xs tracking-widest text-stone-500 mt-1">10 · 04 · 2027</p>
             </div>
         </footer>
@@ -173,7 +215,6 @@
 
     <!-- SCRIPT DE CUENTA REGRESIVA Y FORMULARIO -->
     <script>
-        // Cuenta regresiva para el 10 de abril de 2027 a las 17:00 hrs
         const eventDate = new Date("April 10, 2027 17:00:00").getTime();
         function updateCountdown() {
             const now = new Date().getTime();
@@ -188,7 +229,6 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Mostrar caja de alimentación solo si dice que sí
         const asistenciaSelect = document.getElementById("asistenciaSelect");
         const dietContainer = document.getElementById("dietContainer");
         asistenciaSelect.addEventListener("change", function() {
