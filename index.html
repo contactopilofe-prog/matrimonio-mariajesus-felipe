@@ -34,7 +34,7 @@
 
         <!-- CONTADOR Y FLECHA ABAJO -->
         <div class="w-full max-w-md mx-auto space-y-6 z-10">
-            <div id="countdown" class="grid grid-cols-4 gap-2 text-center py-4 px-6 bg-black/30 backdrop-blur-md rounded-xl border border-white/20 text-white">
+            <div id="countdown" class="grid grid-cols-4 gap-2 text-center py-4 px-6 bg-black/35 backdrop-blur-md rounded-xl border border-white/20 text-white">
                 <div><span id="days" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Días</span></div>
                 <div><span id="hours" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Horas</span></div>
                 <div><span id="minutes" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Min</span></div>
@@ -70,7 +70,7 @@
             </div>
         </section>
 
-        <!-- CRONOGRAMA CON CÍRCULOS E ICONOS EXACTOS -->
+        <!-- CRONOGRAMA CON CÍRCULOS, SOMBREADOS E ICONOS IDÉNTICOS -->
         <section class="space-y-6">
             <div class="text-center">
                 <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Programa</span>
@@ -83,7 +83,7 @@
 
                 <!-- Ceremonia (Anillos) -->
                 <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0 z-10">
+                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 shadow-sm flex items-center justify-center shrink-0 z-10">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </div>
                     <div>
@@ -95,7 +95,7 @@
 
                 <!-- Cóctel (Copa) -->
                 <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0 z-10">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-amber-600 shadow-sm flex items-center justify-center shrink-0 z-10">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8m-4-4v4m0-4a4 4 0 004-4V3H8v10a4 4 0 004 4z"></path></svg>
                     </div>
                     <div>
@@ -105,10 +105,10 @@
                     </div>
                 </div>
 
-                <!-- Cena (Utensilios) -->
+                <!-- Cena (Plato con tenedor y cuchillo) -->
                 <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-yellow-50 border border-yellow-200 text-yellow-700 flex items-center justify-center shrink-0 z-10">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <div class="w-10 h-10 rounded-full bg-yellow-50 border border-yellow-200 text-yellow-700 shadow-sm flex items-center justify-center shrink-0 z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </div>
                     <div>
                         <span class="text-[11px] text-yellow-700 font-semibold uppercase tracking-wider">20:00 HRS</span>
@@ -119,7 +119,7 @@
 
                 <!-- Fiesta (Música) -->
                 <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0 z-10">
+                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 shadow-sm flex items-center justify-center shrink-0 z-10">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
                     </div>
                     <div>
