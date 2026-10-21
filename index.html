@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mariajesús & Felipe — Nos casamos</title>
+    <script>document.documentElement.classList.add('js-reveal');</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
@@ -15,6 +16,40 @@
         }
         .animate-bounce-slow {
             animation: bounceSlow 2s infinite ease-in-out;
+        }
+
+        /* ANIMACIÓN DEL CRONOGRAMA AL HACER SCROLL */
+        .js-reveal .tl-item .tl-icon {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.5s ease var(--delay, 0s), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0s);
+        }
+        .js-reveal .tl-item .tl-text {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s ease calc(var(--delay, 0s) + 0.15s), transform 0.6s ease calc(var(--delay, 0s) + 0.15s);
+        }
+        .js-reveal .tl-item .tl-line {
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.7s ease calc(var(--delay, 0s) + 0.35s);
+        }
+        .js-reveal .tl-item.visible .tl-icon,
+        .js-reveal .tl-item.visible .tl-text {
+            opacity: 1;
+            transform: none;
+        }
+        .js-reveal .tl-item.visible .tl-line {
+            transform: scaleY(1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .js-reveal .tl-item .tl-icon,
+            .js-reveal .tl-item .tl-text,
+            .js-reveal .tl-item .tl-line {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
         }
     </style>
 </head>
@@ -70,23 +105,27 @@
             </div>
         </section>
 
-        <!-- CRONOGRAMA CON LÍNEA CENTRADA E ICONO DE CENA EXACTO -->
+        <!-- CRONOGRAMA CON LÍNEA CENTRADA Y ANIMACIÓN AL HACER SCROLL -->
         <section class="space-y-6">
             <div class="text-center">
                 <span class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Programa</span>
                 <h2 class="font-serif text-3xl text-stone-800 mt-1">Cronograma del día</h2>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 space-y-8 text-sm relative">
-                
-                <!-- Línea vertical centrada exactamente en el medio de los círculos (left: 36px) -->
-                <div class="absolute left-[36px] top-10 bottom-10 w-0.5 bg-stone-200"></div>
 
                 <!-- Ceremonia (Anillos) -->
-                <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 shadow-sm flex items-center justify-center shrink-0 z-10">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <div class="tl-item flex items-start gap-4 relative">
+                    <div class="tl-line absolute left-[19px] top-10 -bottom-8 w-[2px] bg-stone-200"></div>
+                    <div class="tl-icon w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 shadow-sm flex items-center justify-center shrink-0 z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <!-- Dos anillos entrelazados -->
+                            <circle cx="9" cy="15" r="5"></circle>
+                            <circle cx="15" cy="15" r="5"></circle>
+                            <!-- Diamante sobre el anillo -->
+                            <path d="M15 2.5l1.8 1.8L15 6.1l-1.8-1.8z"></path>
+                        </svg>
                     </div>
-                    <div>
+                    <div class="tl-text">
                         <span class="text-[11px] text-rose-700 font-semibold uppercase tracking-wider">17:00 HRS</span>
                         <h4 class="font-serif text-lg font-bold text-stone-800">Ceremonia</h4>
                         <p class="text-stone-600 text-xs">En la misma parcela</p>
@@ -94,31 +133,33 @@
                 </div>
 
                 <!-- Cóctel (Copa) -->
-                <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-amber-600 shadow-sm flex items-center justify-center shrink-0 z-10">
+                <div class="tl-item flex items-start gap-4 relative">
+                    <div class="tl-line absolute left-[19px] top-10 -bottom-8 w-[2px] bg-stone-200"></div>
+                    <div class="tl-icon w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-amber-600 shadow-sm flex items-center justify-center shrink-0 z-10">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8m-4-4v4m0-4a4 4 0 004-4V3H8v10a4 4 0 004 4z"></path></svg>
                     </div>
-                    <div>
+                    <div class="tl-text">
                         <span class="text-[11px] text-amber-700 font-semibold uppercase tracking-wider">18:00 HRS</span>
                         <h4 class="font-serif text-lg font-bold text-stone-800">Cóctel</h4>
                         <p class="text-stone-600 text-xs">Bienvenida al aire libre</p>
                     </div>
                 </div>
 
-                <!-- Cena (Cuchara, Plato y Tenedor exactos como la referencia) -->
-                <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-yellow-50 border border-yellow-200 text-yellow-700 shadow-sm flex items-center justify-center shrink-0 z-10">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <!-- Cuchara izquierda -->
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v5a2 2 0 002 2h0a2 2 0 002-2V3M7 10v11" />
-                            <!-- Plato centro (doble círculo) -->
-                            <circle cx="14" cy="12" r="4" stroke-width="1.5"></circle>
-                            <circle cx="14" cy="12" r="2" stroke-width="1"></circle>
-                            <!-- Tenedor derecha -->
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 3v3m0 0v2a1 1 0 01-1 1h0a1 1 0 01-1-1V6m2 0V3M19 8v13" />
+                <!-- Cena (Tenedor, plato y cuchillo) -->
+                <div class="tl-item flex items-start gap-4 relative">
+                    <div class="tl-line absolute left-[19px] top-10 -bottom-8 w-[2px] bg-stone-200"></div>
+                    <div class="tl-icon w-10 h-10 rounded-full bg-yellow-50 border border-yellow-200 text-yellow-700 shadow-sm flex items-center justify-center shrink-0 z-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <!-- Tenedor (izquierda) -->
+                            <path d="M2.5 3v4a1.5 1.5 0 003 0V3M4 3v18" />
+                            <!-- Plato (centro) -->
+                            <circle cx="12" cy="12" r="4.5"></circle>
+                            <circle cx="12" cy="12" r="2.5" stroke-width="1.2"></circle>
+                            <!-- Cuchillo (derecha) -->
+                            <path d="M21 21V3c-2.2 1.2-3.5 4-3.5 8H21" />
                         </svg>
                     </div>
-                    <div>
+                    <div class="tl-text">
                         <span class="text-[11px] text-yellow-700 font-semibold uppercase tracking-wider">20:00 HRS</span>
                         <h4 class="font-serif text-lg font-bold text-stone-800">Cena</h4>
                         <p class="text-stone-600 text-xs">Nos sentamos a celebrar juntos</p>
@@ -126,11 +167,11 @@
                 </div>
 
                 <!-- Fiesta (Música) -->
-                <div class="flex items-start gap-4 relative">
-                    <div class="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 shadow-sm flex items-center justify-center shrink-0 z-10">
+                <div class="tl-item flex items-start gap-4 relative">
+                    <div class="tl-icon w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 shadow-sm flex items-center justify-center shrink-0 z-10">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
                     </div>
-                    <div>
+                    <div class="tl-text">
                         <span class="text-[11px] text-rose-700 font-semibold uppercase tracking-wider">21:30 HRS</span>
                         <h4 class="font-serif text-lg font-bold text-stone-800">Fiesta</h4>
                         <p class="text-stone-600 text-xs">A bailar hasta que se haga de día</p>
@@ -186,7 +227,7 @@
             <p class="text-stone-600 text-sm">Tu presencia ese día es muy importante para nosotros. Para ayudarnos a armar nuestra nueva casa, dejamos aquí nuestra lista de regalos.</p>
             <div class="pt-2">
                 <a href="https://club.noviosparis.cl/home/couple-catalog/8672717" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-stone-900 text-white rounded-xl text-xs uppercase tracking-wider font-semibold hover:bg-stone-800 transition shadow-sm">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
                     Ir a la lista de Novios Paris
                 </a>
             </div>
@@ -227,7 +268,7 @@
 
     </main>
 
-    <!-- SCRIPT DE CUENTA REGRESIVA Y FORMULARIO -->
+    <!-- SCRIPT DE CUENTA REGRESIVA, FORMULARIO Y ANIMACIÓN DEL CRONOGRAMA -->
     <script>
         const eventDate = new Date("April 10, 2027 17:00:00").getTime();
         function updateCountdown() {
@@ -252,6 +293,25 @@
                 dietContainer.classList.add("hidden");
             }
         });
+
+        // Aparición de los pasos del cronograma al hacer scroll
+        const timelineItems = document.querySelectorAll(".tl-item");
+        if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(function(entries) {
+                let order = 0;
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.setProperty("--delay", (order * 0.18) + "s");
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                        order++;
+                    }
+                });
+            }, { threshold: 0.4, rootMargin: "0px 0px -8% 0px" });
+            timelineItems.forEach(function(item) { observer.observe(item); });
+        } else {
+            timelineItems.forEach(function(item) { item.classList.add("visible"); });
+        }
     </script>
 </body>
 </html>
