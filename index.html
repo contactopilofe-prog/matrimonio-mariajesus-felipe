@@ -13,12 +13,9 @@
         .font-script { font-family: 'Pinyon Script', 'Cormorant Garamond', cursive; }
         .hero-title { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35); }
 
-        @keyframes bounceSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-        .animate-bounce-slow {
-            animation: bounceSlow 2s infinite ease-in-out;
+        /* Desplazamiento suave al tocar el botón de la portada */
+        @media (prefers-reduced-motion: no-preference) {
+            html { scroll-behavior: smooth; }
         }
 
         /* ANIMACIÓN DE ENTRADA DE LA PORTADA */
@@ -39,6 +36,25 @@
             opacity: 0;
             animation: heroFade 1.1s ease-out forwards;
             animation-delay: var(--d, 0s);
+        }
+
+        /* INDICADOR "DESLIZA PARA VER MÁS" */
+        .scroll-cue { transition: opacity 0.4s ease; }
+        .scroll-cue.cue-hidden { opacity: 0; pointer-events: none; }
+        .scroll-cue .ring {
+            position: absolute; inset: 0; border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            animation: ringPulse 2.2s ease-out infinite;
+        }
+        .scroll-cue .ring.r2 { animation-delay: 1.1s; }
+        .scroll-cue .chevron { animation: chevronDrop 1.6s ease-in-out infinite; }
+        @keyframes ringPulse {
+            0%   { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        @keyframes chevronDrop {
+            0%, 100% { transform: translateY(-2px); opacity: 0.75; }
+            50%      { transform: translateY(4px); opacity: 1; }
         }
 
         /* CRONOGRAMA: APARECE A MEDIDA QUE SE HACE SCROLL */
@@ -115,6 +131,8 @@
                 opacity: 1 !important;
                 animation: none !important;
             }
+            .scroll-cue .ring { display: none; }
+            .scroll-cue .chevron { animation: none !important; }
             .js-reveal .tl-item .tl-icon,
             .js-reveal .tl-item .tl-text,
             .js-reveal .tl-item .tl-line {
@@ -128,8 +146,8 @@
 </head>
 <body class="antialiased">
 
-    <!-- HERO SECTION CON FONDO DE IMAGEN A TAMAÑO COMPLETO -->
-    <header class="relative min-h-screen flex flex-col justify-between py-12 px-6 text-center text-white bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.ibb.co/Wv4Rq6JT/foto-jesufelipe.jpg');">
+    <!-- HERO SECTION: ocupa el 90% de la pantalla y deja asomar la siguiente sección -->
+    <header class="relative min-h-[90svh] flex flex-col justify-between py-10 px-6 text-center text-white bg-cover bg-center rounded-b-[2rem]" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.ibb.co/Wv4Rq6JT/foto-jesufelipe.jpg');">
         
         <!-- NOMBRES Y FECHA ARRIBA -->
         <div class="space-y-2 pt-6 z-10">
@@ -140,8 +158,8 @@
             <p class="hero-fade text-xs uppercase tracking-[0.3em] text-white/90 pt-4" style="--d: 1.5s">Sábado 10 de Abril, 2027 · El Monte</p>
         </div>
 
-        <!-- CONTADOR Y FLECHA ABAJO -->
-        <div class="hero-fade w-full max-w-md mx-auto space-y-6 z-10" style="--d: 1.9s">
+        <!-- CONTADOR E INDICADOR PARA SEGUIR BAJANDO -->
+        <div class="hero-fade w-full max-w-md mx-auto space-y-5 z-10" style="--d: 1.9s">
             <div id="countdown" class="grid grid-cols-4 gap-2 text-center py-4 px-6 bg-black/35 backdrop-blur-md rounded-xl border border-white/20 text-white">
                 <div><span id="days" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Días</span></div>
                 <div><span id="hours" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Horas</span></div>
@@ -149,19 +167,24 @@
                 <div><span id="seconds" class="font-serif text-2xl font-bold">00</span><span class="block text-[10px] uppercase opacity-80">Seg</span></div>
             </div>
 
-            <!-- FLECHA SUAVE HACIA ABAJO -->
-            <div class="flex justify-center pb-2">
-                <svg class="w-6 h-6 text-white animate-bounce-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </div>
+            <!-- DESLIZA PARA VER MÁS (se puede tocar para bajar) -->
+            <a href="#cuando-y-donde" id="scrollCue" class="scroll-cue flex flex-col items-center gap-3 text-white" aria-label="Desliza para ver los detalles">
+                <span class="text-[11px] uppercase tracking-[0.3em] text-white/90">Desliza para ver los detalles</span>
+                <span class="relative flex items-center justify-center w-11 h-11 rounded-full border border-white/70 bg-white/10 backdrop-blur-sm">
+                    <span class="ring"></span>
+                    <span class="ring r2"></span>
+                    <svg class="chevron w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                        <path d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </span>
+            </a>
         </div>
     </header>
 
     <main class="max-w-md mx-auto px-6 space-y-16 pb-20 pt-10">
 
         <!-- CUÁNDO Y DÓNDE -->
-        <section class="text-center space-y-8">
+        <section id="cuando-y-donde" class="text-center space-y-8 scroll-mt-6">
             <h2 class="text-xs uppercase tracking-widest text-emerald-800 font-semibold">Cuándo y Dónde</h2>
             <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 space-y-4">
                 <h3 class="font-serif text-3xl text-stone-800">El gran día</h3>
@@ -467,7 +490,7 @@
 
     </main>
 
-    <!-- SCRIPTS: CUENTA REGRESIVA, CRONOGRAMA, REGALO Y CONFIRMACIÓN -->
+    <!-- SCRIPTS: CUENTA REGRESIVA, INDICADOR DE SCROLL, CRONOGRAMA, REGALO Y CONFIRMACIÓN -->
     <script>
         // Cuenta regresiva (hasta las 16:30, inicio del evento)
         const eventDate = new Date("April 10, 2027 16:30:00").getTime();
@@ -483,6 +506,14 @@
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
+
+        // Indicador "Desliza para ver los detalles": se oculta cuando la persona empieza a bajar
+        const scrollCue = document.getElementById("scrollCue");
+        function toggleCue() {
+            if (scrollCue) scrollCue.classList.toggle("cue-hidden", window.scrollY > 60);
+        }
+        window.addEventListener("scroll", toggleCue, { passive: true });
+        toggleCue();
 
         // Cronograma: la línea se dibuja y los iconos aparecen según el scroll
         const tlItems = Array.from(document.querySelectorAll(".tl-item"));
