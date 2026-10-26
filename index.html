@@ -86,6 +86,30 @@
         .gift.open .gift-spark.s2 { transition-delay: 0.6s; }
         .gift.open .gift-spark.s3 { transition-delay: 0.8s; }
 
+        /* CONFIRMACIÓN: LISTA DE NOMBRES, BOTONES Y OPCIONES */
+        .guest-item {
+            display: flex; align-items: center; justify-content: space-between; gap: 8px;
+            padding: 10px 14px; cursor: pointer; font-size: 14px; color: #292524;
+        }
+        .guest-item:hover, .guest-item.active { background: #ecfdf5; }
+        .guest-badge {
+            font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+            color: #047857; background: #d1fae5; border-radius: 9999px; padding: 3px 8px; white-space: nowrap;
+        }
+        .att-btn {
+            border: 1px solid #d6d3d1; background: #fff; border-radius: 12px; padding: 12px 8px;
+            font-size: 13px; font-weight: 600; color: #44403c; transition: all 0.15s;
+        }
+        .att-btn:hover { border-color: #047857; }
+        .att-btn.sel-yes { background: #065f46; border-color: #065f46; color: #fff; }
+        .att-btn.sel-no { background: #44403c; border-color: #44403c; color: #fff; }
+        .chip {
+            border: 1px solid #d6d3d1; background: #fff; color: #44403c; border-radius: 9999px;
+            padding: 6px 12px; font-size: 12px; transition: all 0.15s;
+        }
+        .chip:hover { border-color: #047857; }
+        .chip.sel { background: #065f46; border-color: #065f46; color: #fff; }
+
         @media (prefers-reduced-motion: reduce) {
             .hero-in, .hero-fade {
                 opacity: 1 !important;
@@ -262,26 +286,112 @@
             <div class="bg-red-500/10 border border-red-400/40 text-red-700 rounded-xl px-4 py-3 text-xs font-semibold backdrop-blur-sm">
                 Confirmar antes del 10 de Febrero de 2027
             </div>
-            
-            <form id="rsvpForm" action="TU_URL_DE_GOOGLE_SCRIPT_AQUI" method="POST" class="space-y-4 text-left pt-2">
-                <div>
-                    <label class="block text-xs font-semibold text-stone-700 mb-1">Tu Nombre Completo</label>
-                    <input type="text" name="nombre" required placeholder="Ej: Camila Ríos" class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-emerald-700">
+
+            <div id="rsvpApp" class="text-left space-y-4 pt-2">
+
+                <!-- PASO 1: BUSCAR EL NOMBRE -->
+                <div id="stepSearch" class="space-y-2">
+                    <label for="guestSearch" class="block text-xs font-semibold text-stone-700">Escribe tu nombre completo y selecciona tu nombre.</label>
+                    <div class="relative">
+                        <input id="guestSearch" type="text" autocomplete="off" autocapitalize="words" placeholder="Ej: Camila Ríos" class="w-full px-4 py-3 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-emerald-700">
+                        <ul id="guestResults" class="hidden absolute z-30 left-0 right-0 mt-1 bg-white border border-stone-200 rounded-xl shadow-lg max-h-64 overflow-auto divide-y divide-stone-100"></ul>
+                    </div>
+                    <p id="notFound" class="hidden text-xs text-stone-600 bg-stone-50 border border-stone-200 rounded-lg p-3"></p>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-stone-700 mb-1">¿Asistirás al evento?</label>
-                    <select name="asistencia" id="asistenciaSelect" class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm bg-white focus:outline-none focus:border-emerald-700" required>
-                        <option value="">Selecciona una opción</option>
-                        <option value="Sí">Sí, ahí estaré</option>
-                        <option value="No">No podré asistir</option>
-                    </select>
+
+                <!-- PASO 2: FORMULARIO -->
+                <div id="stepForm" class="hidden space-y-5">
+
+                    <div class="flex items-start justify-between gap-3 bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+                        <div>
+                            <p class="font-serif text-xl text-stone-800">Hola, <span id="helloName"></span></p>
+                            <p id="passText" class="hidden text-xs text-emerald-800 font-medium mt-1">Tu invitación incluye acompañante</p>
+                        </div>
+                        <button type="button" id="changeGuest" class="text-xs text-stone-500 underline shrink-0">Cambiar</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" class="att-btn" data-att="Sí">Sí, allí estaré</button>
+                        <button type="button" class="att-btn" data-att="No">No podré ir</button>
+                    </div>
+
+                    <div id="afterAtt" class="hidden space-y-5">
+
+                        <div id="attendingFields" class="hidden space-y-5">
+
+                            <!-- Acompañante (solo invitación doble) -->
+                            <div id="companionBlock" class="hidden space-y-4 p-4 rounded-xl bg-stone-50 border border-stone-100">
+                                <p class="text-xs font-semibold text-emerald-800 uppercase tracking-wider">Tu acompañante</p>
+                                <div>
+                                    <label for="companionName" class="block text-xs font-semibold text-stone-700 mb-1">Nombre y apellido de tu acompañante</label>
+                                    <input id="companionName" type="text" autocomplete="off" placeholder="Ej: Juan Pérez" class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm bg-white focus:outline-none focus:border-emerald-700">
+                                    <p class="text-[11px] text-stone-500 mt-1">Si aún no lo sabes, puedes dejarlo en blanco.</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-700">Menú de tu acompañante</p>
+                                    <p class="text-[11px] text-stone-500 mb-2">Puedes marcar varias</p>
+                                    <div id="cMenu" class="flex flex-wrap gap-2"></div>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-700">Alergias de tu acompañante</p>
+                                    <p class="text-[11px] text-stone-500 mb-2">Puedes marcar varias</p>
+                                    <div id="cAllergy" class="flex flex-wrap gap-2"></div>
+                                </div>
+                                <div id="cStrictWrap" class="hidden">
+                                    <p class="text-xs font-semibold text-stone-700 mb-2">¿Qué tan estricta es?</p>
+                                    <div id="cStrict" class="flex flex-wrap gap-2"></div>
+                                </div>
+                            </div>
+
+                            <!-- Menú y alergias propios -->
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-700">Tu menú</p>
+                                    <p class="text-[11px] text-stone-500 mb-2">Puedes marcar varias</p>
+                                    <div id="mMenu" class="flex flex-wrap gap-2"></div>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-700">Alergias alimentarias</p>
+                                    <p class="text-[11px] text-stone-500 mb-2">Puedes marcar varias</p>
+                                    <div id="mAllergy" class="flex flex-wrap gap-2"></div>
+                                </div>
+                                <div id="mStrictWrap" class="hidden">
+                                    <p class="text-xs font-semibold text-stone-700 mb-2">¿Qué tan estricta es?</p>
+                                    <div id="mStrict" class="flex flex-wrap gap-2"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="guestMessage" class="block text-xs font-semibold text-stone-700 mb-1">Un mensaje para los novios</label>
+                            <textarea id="guestMessage" placeholder="Escríbenos lo que quieras (también puedes contarnos cualquier otra alergia)" class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-emerald-700 h-24"></textarea>
+                        </div>
+
+                        <p id="formError" class="hidden text-xs text-red-700 bg-red-500/10 border border-red-400/40 rounded-lg p-3"></p>
+
+                        <button type="button" id="submitBtn" class="w-full py-3 bg-emerald-800 text-white rounded-lg text-xs uppercase tracking-wider font-semibold hover:bg-emerald-900 transition disabled:opacity-60">Enviar confirmación</button>
+                    </div>
                 </div>
-                <div id="dietContainer" class="hidden space-y-2">
-                    <label class="block text-xs font-semibold text-stone-700 mb-1">Observaciones alimenticias (Vegetariano, vegano, alérgico, etc.)</label>
-                    <textarea name="alimentacion" placeholder="Indícanos si tienes alguna restricción..." class="w-full px-4 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:border-emerald-700 h-20"></textarea>
+
+                <!-- PASO 3: GRACIAS -->
+                <div id="stepDone" class="hidden text-center space-y-3 py-2">
+                    <div class="mx-auto w-12 h-12 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 id="doneTitle" class="font-serif text-2xl text-stone-800"></h3>
+                    <p id="doneMsg" class="text-sm text-stone-600"></p>
+                    <p id="doneReminder" class="text-xs text-stone-500"></p>
+                    <div id="calWrap" class="hidden pt-2">
+                        <p class="text-[11px] uppercase tracking-widest text-stone-500 mb-2">Agéndalo en tu calendario</p>
+                        <div class="flex flex-col sm:flex-row gap-2 justify-center">
+                            <a id="gcalBtn" href="#" target="_blank" rel="noopener" class="px-4 py-2 bg-stone-900 text-white rounded-lg text-xs uppercase tracking-wider">Google Calendar</a>
+                            <button type="button" id="icsBtn" class="px-4 py-2 bg-stone-900 text-white rounded-lg text-xs uppercase tracking-wider">Apple / .ics</button>
+                        </div>
+                    </div>
+                    <button type="button" id="anotherBtn" class="text-xs text-stone-500 underline pt-3">Confirmar a otra persona</button>
                 </div>
-                <button type="submit" class="w-full py-3 bg-emerald-800 text-white rounded-lg text-xs uppercase tracking-wider font-semibold hover:bg-emerald-900 transition">Enviar confirmación</button>
-            </form>
+
+            </div>
         </section>
 
         <!-- LISTA DE NOVIOS (PARIS) -->
@@ -357,7 +467,7 @@
 
     </main>
 
-    <!-- SCRIPTS: CUENTA REGRESIVA, FORMULARIO, CRONOGRAMA Y REGALO -->
+    <!-- SCRIPTS: CUENTA REGRESIVA, CRONOGRAMA, REGALO Y CONFIRMACIÓN -->
     <script>
         // Cuenta regresiva (hasta las 16:30, inicio del evento)
         const eventDate = new Date("April 10, 2027 16:30:00").getTime();
@@ -373,17 +483,6 @@
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // Formulario: mostrar observaciones alimenticias solo si asiste
-        const asistenciaSelect = document.getElementById("asistenciaSelect");
-        const dietContainer = document.getElementById("dietContainer");
-        asistenciaSelect.addEventListener("change", function() {
-            if (this.value === "Sí") {
-                dietContainer.classList.remove("hidden");
-            } else {
-                dietContainer.classList.add("hidden");
-            }
-        });
 
         // Cronograma: la línea se dibuja y los iconos aparecen según el scroll
         const tlItems = Array.from(document.querySelectorAll(".tl-item"));
@@ -435,6 +534,387 @@
                 gift.classList.toggle("open");
             });
         }
+
+        // =====================================================
+        // CONFIRMACIÓN DE ASISTENCIA
+        // =====================================================
+
+        // 1) URL de tu Google Apps Script (la que termina en /exec)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcJvNKHL8t4oryIe4jB7nUVZI_tMc9SUCMkdn-Zrs9qvSyIaxbrTkCKfgPc0PgHPh0/exec";
+
+        // 2) Opcional: tu WhatsApp para el mensaje de "no encontramos ese nombre" (ej: "56912345678", sin + ni espacios)
+        const WHATSAPP = "";
+
+        // 3) Opciones que ve el invitado (puedes cambiarlas según el menú real de la fiesta)
+        const MENU_OPCIONES = ["Sin restricciones", "Vegetariano", "Vegano", "Sin gluten", "Sin lactosa"];
+        const ALERGIAS_OPCIONES = ["Gluten", "Lactosa", "Frutos secos", "Mariscos", "Huevo", "Otra"];
+        const ESTRICTEZ_OPCIONES = ["Es una preferencia", "Me hace mal", "Es una alergia grave"];
+
+        // 4) Datos del evento para agendar en el calendario
+        const EVENTO = {
+            titulo: "Matrimonio Mariajesús & Felipe",
+            inicio: "20270410T163000",
+            fin: "20270411T040000",
+            zona: "America/Santiago",
+            lugar: "Condominio Los Huinganes, Parcela 4, El Monte, Región Metropolitana",
+            detalle: "Recepción 16:30 · Ceremonia 17:00 · Cóctel 18:00 · Cena 20:00 · Fiesta 21:30"
+        };
+
+        // 5) Lista de respaldo copiada de tu hoja (solo se usa si el script no responde).
+        //    Los que tienen "|doble" son invitación doble.
+        const RESPALDO = [
+            "Alvaro Diaz", "Alejandra (Alvaro)", "Florencia Diaz", "Matias (Alvaro)", "Ana Cid",
+            "Arturo Muñoz", "Rosa Maria Arata", "Carmen Correa", "Jose Urbina", "Catalina Riveros",
+            "Antonia Cortes", "Cecilia Diaz", "Felipe Riveros", "Cecilia Weggener", "Cristian Dorat",
+            "Jose Ignacio Montenegro|doble", "Juan Pablo Jimenez|doble", "Diego Araya|doble",
+            "Diego molina", "Felipe vega", "Cristobal López", "Paloma Perez", "Dener Rodoureira|doble",
+            "Matias Miranda", "Belen Shuffeneger", "Jean Demulder", "Paulina Ibarra", "Rafaela Urrutia",
+            "Ajdali Encina", "Tomas becerra", "Claudia", "Roberto Troche", "Camila Olmos",
+            "Valentina Elia", "Bruno Cavicchioli", "Cristibal Rodriguez", "Cristian Dittborn",
+            "Eduardo Jara", "Ricardo Gomez", "Demian Bello", "Matias Labarca", "Barbara Bueno",
+            "Valentina Rojas", "Paloma Correa", "Mervyn Marchant", "Diego Albornoz", "Elizabeth Levipan",
+            "Rolando Porflitt", "pame", "Italo Alegria|doble", "Gonzalo Riveros", "Marcela Carrasco",
+            "Josefa Riveros", "Benjamín Riveros", "Ignacio Riveros|doble", "Pamela Carrasco",
+            "Isabel Ferrari", "Santiago Riveros", "Javiera Acuña", "Felipe Silva", "Matias Muñoz",
+            "Gilberto López|doble", "Benjamín López", "Tonka Simunovic", "Sebastian Saavedra",
+            "Gerardo Ferrari", "Yany Balderrama", "Olga Ferrari", "Francisco Rojas", "Marcela Trincado",
+            "Michael Galaburda", "Mijal Galaburda", "Maite Galaburda|doble", "Julieta Galaburda",
+            "Marcela Rojas", "Eduardo Nuñez", "Marisol Pizzarro", "Antonio López", "Monserrat Trincado",
+            "Miguel Angel Moreno", "Paola Riveros", "Yamal Duk", "Samira Duk", "Maximiliano Morales",
+            "Fadia Duk", "Franco Morales", "Carolina Silva", "victor Zelada", "Yerko Galliani",
+            "Carolina Henríquez", "Sandra Romero"
+        ];
+
+        // ---------- Utilidades ----------
+        const $ = function(id) { return document.getElementById(id); };
+        const norm = function(s) {
+            return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        };
+        const scriptListo = SCRIPT_URL.indexOf("https://") === 0;
+
+        let guests = RESPALDO.map(function(s) {
+            const p = s.split("|");
+            return { nombre: p[0].trim(), doble: (p[1] || "").toLowerCase().indexOf("doble") !== -1 };
+        });
+
+        // Si el script está conectado, la lista se lee en vivo desde tu hoja
+        if (scriptListo) {
+            fetch(SCRIPT_URL)
+                .then(function(r) { return r.json(); })
+                .then(function(lista) {
+                    if (Array.isArray(lista) && lista.length) {
+                        guests = lista.map(function(g) {
+                            return { nombre: String(g.nombre).trim(), doble: String(g.tipo || "").toLowerCase().indexOf("doble") !== -1 };
+                        });
+                    }
+                })
+                .catch(function() { /* se queda con la lista de respaldo */ });
+        }
+
+        // ---------- Estado ----------
+        let selected = null;
+        let attendance = "";
+        let activeIdx = -1;
+        let currentResults = [];
+
+        // ---------- Opciones (chips) ----------
+        function buildChips(id, options, multi, onChange) {
+            const box = $(id);
+            box.innerHTML = "";
+            options.forEach(function(opt) {
+                const b = document.createElement("button");
+                b.type = "button";
+                b.className = "chip";
+                b.textContent = opt;
+                b.addEventListener("click", function() {
+                    if (multi) {
+                        b.classList.toggle("sel");
+                    } else {
+                        const was = b.classList.contains("sel");
+                        box.querySelectorAll(".chip").forEach(function(c) { c.classList.remove("sel"); });
+                        if (!was) b.classList.add("sel");
+                    }
+                    if (onChange) onChange();
+                });
+                box.appendChild(b);
+            });
+        }
+        function getSel(id) {
+            return Array.prototype.map.call(document.querySelectorAll("#" + id + " .chip.sel"), function(c) { return c.textContent; });
+        }
+        function refreshStrict(allergyId, wrapId, strictId) {
+            const has = getSel(allergyId).length > 0;
+            $(wrapId).classList.toggle("hidden", !has);
+            if (!has) {
+                document.querySelectorAll("#" + strictId + " .chip").forEach(function(c) { c.classList.remove("sel"); });
+            }
+        }
+        function buildAllChips() {
+            buildChips("mMenu", MENU_OPCIONES, true);
+            buildChips("mAllergy", ALERGIAS_OPCIONES, true, function() { refreshStrict("mAllergy", "mStrictWrap", "mStrict"); });
+            buildChips("mStrict", ESTRICTEZ_OPCIONES, false);
+            buildChips("cMenu", MENU_OPCIONES, true);
+            buildChips("cAllergy", ALERGIAS_OPCIONES, true, function() { refreshStrict("cAllergy", "cStrictWrap", "cStrict"); });
+            buildChips("cStrict", ESTRICTEZ_OPCIONES, false);
+        }
+        buildAllChips();
+
+        // ---------- Buscador de nombres ----------
+        function findGuests(q) {
+            const nq = norm(q);
+            if (nq.length < 2) return [];
+            const tokens = nq.split(/\s+/).filter(Boolean);
+            return guests
+                .filter(function(g) {
+                    const n = norm(g.nombre);
+                    return tokens.every(function(t) { return n.indexOf(t) !== -1; });
+                })
+                .sort(function(a, b) {
+                    const na = norm(a.nombre), nb = norm(b.nombre);
+                    const sa = na.indexOf(tokens[0]) === 0 ? 0 : 1;
+                    const sb = nb.indexOf(tokens[0]) === 0 ? 0 : 1;
+                    return sa - sb || na.localeCompare(nb);
+                })
+                .slice(0, 6);
+        }
+
+        function renderResults() {
+            const q = $("guestSearch").value;
+            const list = $("guestResults");
+            currentResults = findGuests(q);
+            activeIdx = -1;
+            list.innerHTML = "";
+            $("notFound").classList.add("hidden");
+
+            if (currentResults.length) {
+                currentResults.forEach(function(g, i) {
+                    const li = document.createElement("li");
+                    li.className = "guest-item";
+                    const name = document.createElement("span");
+                    name.textContent = g.nombre;
+                    li.appendChild(name);
+                    if (g.doble) {
+                        const badge = document.createElement("span");
+                        badge.className = "guest-badge";
+                        badge.textContent = "Invitación doble";
+                        li.appendChild(badge);
+                    }
+                    li.addEventListener("mousedown", function(e) { e.preventDefault(); selectGuest(g); });
+                    list.appendChild(li);
+                });
+                list.classList.remove("hidden");
+            } else {
+                list.classList.add("hidden");
+                if (norm(q).length >= 3) showNotFound();
+            }
+        }
+
+        function showNotFound() {
+            const el = $("notFound");
+            el.innerHTML = "";
+            el.appendChild(document.createTextNode("No encontramos ese nombre. Prueba con tu segundo nombre o apellido, o escríbenos "));
+            if (WHATSAPP) {
+                const a = document.createElement("a");
+                a.href = "https://wa.me/" + WHATSAPP;
+                a.target = "_blank";
+                a.rel = "noopener";
+                a.className = "underline text-emerald-800 font-semibold";
+                a.textContent = "por WhatsApp";
+                el.appendChild(a);
+                el.appendChild(document.createTextNode(" "));
+            }
+            el.appendChild(document.createTextNode("y lo revisamos juntos."));
+            el.classList.remove("hidden");
+        }
+
+        function setActive(i) {
+            const items = $("guestResults").querySelectorAll(".guest-item");
+            items.forEach(function(it) { it.classList.remove("active"); });
+            if (i >= 0 && items[i]) {
+                items[i].classList.add("active");
+                items[i].scrollIntoView({ block: "nearest" });
+            }
+            activeIdx = i;
+        }
+
+        $("guestSearch").addEventListener("input", renderResults);
+        $("guestSearch").addEventListener("focus", function() { if (this.value) renderResults(); });
+        $("guestSearch").addEventListener("keydown", function(e) {
+            if (!currentResults.length) return;
+            if (e.key === "ArrowDown") { e.preventDefault(); setActive(Math.min(activeIdx + 1, currentResults.length - 1)); }
+            else if (e.key === "ArrowUp") { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+            else if (e.key === "Enter") { e.preventDefault(); selectGuest(currentResults[activeIdx >= 0 ? activeIdx : 0]); }
+            else if (e.key === "Escape") { $("guestResults").classList.add("hidden"); }
+        });
+        document.addEventListener("click", function(e) {
+            if (!$("guestResults").contains(e.target) && e.target !== $("guestSearch")) {
+                $("guestResults").classList.add("hidden");
+            }
+        });
+
+        // ---------- Selección del invitado ----------
+        function selectGuest(g) {
+            selected = g;
+            $("guestResults").classList.add("hidden");
+            $("notFound").classList.add("hidden");
+            $("stepSearch").classList.add("hidden");
+            $("stepForm").classList.remove("hidden");
+            $("helloName").textContent = g.nombre;
+            $("passText").classList.toggle("hidden", !g.doble);
+            setAttendance("");
+        }
+
+        function setAttendance(val) {
+            attendance = val;
+            document.querySelectorAll(".att-btn").forEach(function(b) {
+                b.classList.remove("sel-yes", "sel-no");
+                if (b.getAttribute("data-att") === val) b.classList.add(val === "Sí" ? "sel-yes" : "sel-no");
+            });
+            $("afterAtt").classList.toggle("hidden", !val);
+            $("attendingFields").classList.toggle("hidden", val !== "Sí");
+            $("companionBlock").classList.toggle("hidden", !(val === "Sí" && selected && selected.doble));
+            $("formError").classList.add("hidden");
+        }
+        document.querySelectorAll(".att-btn").forEach(function(b) {
+            b.addEventListener("click", function() { setAttendance(b.getAttribute("data-att")); });
+        });
+
+        function resetAll() {
+            selected = null;
+            attendance = "";
+            $("guestSearch").value = "";
+            $("guestResults").classList.add("hidden");
+            $("notFound").classList.add("hidden");
+            $("companionName").value = "";
+            $("guestMessage").value = "";
+            $("formError").classList.add("hidden");
+            buildAllChips();
+            $("mStrictWrap").classList.add("hidden");
+            $("cStrictWrap").classList.add("hidden");
+            setAttendance("");
+            $("stepForm").classList.add("hidden");
+            $("stepDone").classList.add("hidden");
+            $("stepSearch").classList.remove("hidden");
+        }
+        $("changeGuest").addEventListener("click", resetAll);
+        $("anotherBtn").addEventListener("click", function() {
+            resetAll();
+            $("guestSearch").focus();
+        });
+
+        // ---------- Envío ----------
+        function resumen(menuId, allergyId, strictId) {
+            const menu = getSel(menuId), al = getSel(allergyId), st = getSel(strictId);
+            const parts = [];
+            if (menu.length) parts.push("Menú: " + menu.join(", "));
+            if (al.length) parts.push("Alergias: " + al.join(", ") + (st.length ? " (" + st[0] + ")" : ""));
+            return parts.join(" · ");
+        }
+
+        function showError(msg) {
+            const el = $("formError");
+            el.textContent = msg;
+            el.classList.remove("hidden");
+        }
+
+        async function submitRsvp() {
+            $("formError").classList.add("hidden");
+            if (!selected) return;
+            if (!attendance) { showError("Cuéntanos si podrás asistir."); return; }
+            if (!scriptListo) { showError("El formulario aún no está conectado a la hoja de cálculo."); return; }
+
+            const va = attendance === "Sí";
+            let obs = "";
+            let pareja = "";
+            if (va) {
+                const propio = resumen("mMenu", "mAllergy", "mStrict");
+                const acomp = selected.doble ? resumen("cMenu", "cAllergy", "cStrict") : "";
+                const partes = [];
+                if (propio) partes.push(propio);
+                if (acomp) partes.push("Acompañante → " + acomp);
+                obs = partes.join(" | ") || "Sin observaciones";
+                if (selected.doble) pareja = $("companionName").value.trim();
+            }
+
+            const payload = {
+                nombre: selected.nombre,
+                asistencia: attendance,
+                pareja: pareja,
+                observaciones: obs,
+                mensaje: $("guestMessage").value.trim()
+            };
+
+            const btn = $("submitBtn");
+            btn.disabled = true;
+            btn.textContent = "Enviando...";
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                showDone(va);
+            } catch (err) {
+                showError("No pudimos enviar tu confirmación. Revisa tu conexión e inténtalo de nuevo.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Enviar confirmación";
+            }
+        }
+        $("submitBtn").addEventListener("click", submitRsvp);
+
+        function showDone(va) {
+            $("stepForm").classList.add("hidden");
+            $("stepDone").classList.remove("hidden");
+            if (va) {
+                $("doneTitle").textContent = "¡Gracias por confirmar!";
+                $("doneMsg").textContent = "Te esperamos el sábado 10 de abril en El Monte.";
+                $("doneReminder").textContent = "Recuerda: tenida formal, taco ancho para el pasto y nada de blanco.";
+            } else {
+                $("doneTitle").textContent = "Gracias por avisarnos";
+                $("doneMsg").textContent = "Lamentamos que no puedas acompañarnos, te vamos a extrañar.";
+                $("doneReminder").textContent = "";
+            }
+            $("calWrap").classList.toggle("hidden", !va);
+            $("gcalBtn").href =
+                "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+                "&text=" + encodeURIComponent(EVENTO.titulo) +
+                "&dates=" + EVENTO.inicio + "/" + EVENTO.fin +
+                "&ctz=" + EVENTO.zona +
+                "&location=" + encodeURIComponent(EVENTO.lugar) +
+                "&details=" + encodeURIComponent(EVENTO.detalle);
+            $("stepDone").scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        // ---------- Archivo .ics (Apple / Outlook) ----------
+        $("icsBtn").addEventListener("click", function() {
+            const esc = function(s) { return String(s).replace(/[,;]/g, function(m) { return "\\" + m; }); };
+            const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+            const ics = [
+                "BEGIN:VCALENDAR",
+                "VERSION:2.0",
+                "PRODID:-//Matrimonio Mariajesus y Felipe//ES",
+                "CALSCALE:GREGORIAN",
+                "BEGIN:VEVENT",
+                "UID:matrimonio-mariajesus-felipe-20270410",
+                "DTSTAMP:" + stamp,
+                "DTSTART;TZID=" + EVENTO.zona + ":" + EVENTO.inicio,
+                "DTEND;TZID=" + EVENTO.zona + ":" + EVENTO.fin,
+                "SUMMARY:" + esc(EVENTO.titulo),
+                "LOCATION:" + esc(EVENTO.lugar),
+                "DESCRIPTION:" + esc(EVENTO.detalle),
+                "END:VEVENT",
+                "END:VCALENDAR"
+            ].join("\r\n");
+            const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "matrimonio-mariajesus-felipe.ics";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
     </script>
 </body>
 </html>
