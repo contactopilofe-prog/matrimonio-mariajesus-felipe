@@ -50,14 +50,15 @@
         @media (min-width: 768px) {
             .hero-img { object-position: var(--hero-pos-desktop); }
         }
-        /* Oscurece arriba y abajo (donde va el texto) y deja la foto más visible al centro */
+        /* Deja la foto despejada arriba y oscurece abajo, donde va el texto */
         .hero-overlay {
             background:
                 linear-gradient(to bottom,
-                    rgba(0,0,0,0.55) 0%,
-                    rgba(0,0,0,0.25) 30%,
-                    rgba(0,0,0,0.25) 55%,
-                    rgba(0,0,0,0.65) 100%);
+                    rgba(0,0,0,0.25) 0%,
+                    rgba(0,0,0,0) 22%,
+                    rgba(0,0,0,0) 45%,
+                    rgba(0,0,0,0.55) 68%,
+                    rgba(0,0,0,0.82) 100%);
         }
         .hero-img-in { animation: heroZoom 2.4s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
         @keyframes heroZoom {
@@ -91,6 +92,7 @@
         /* Compensa el espacio extra que deja el espaciado de letras para que el texto quede bien centrado */
         .track-35 { letter-spacing: 0.35em; padding-left: 0.35em; }
         .track-30 { letter-spacing: 0.3em; padding-left: 0.3em; }
+        .track-22 { letter-spacing: 0.22em; padding-left: 0.22em; }
 
         /* Desplazamiento suave */
         @media (prefers-reduced-motion: no-preference) {
@@ -129,7 +131,7 @@
         .scroll-cue.cue-hidden { opacity: 0; pointer-events: none; }
         .cue-btn {
             position: relative; display: flex; align-items: center; justify-content: center;
-            width: 3rem; height: 3rem; border-radius: 9999px;
+            width: 2.25rem; height: 2.25rem; border-radius: 9999px;
             border: 1.5px solid rgba(250, 248, 245, 0.85);
             background: rgba(250, 248, 245, 0.12);
             backdrop-filter: blur(4px);
@@ -372,7 +374,7 @@
 <body class="antialiased">
 
     <!-- PORTADA: ocupa el 90% de la pantalla y deja asomar la siguiente sección -->
-    <header class="hero relative overflow-hidden flex flex-col pt-10 pb-12 px-6 text-center text-white rounded-b-[2rem] bg-stone-800">
+    <header class="hero relative overflow-hidden flex flex-col pt-10 pb-6 px-6 text-center text-white rounded-b-[2rem] bg-stone-800">
 
         <!-- Foto de portada (para cambiar el encuadre, ver "AJUSTE RÁPIDO DE LA FOTO" arriba) -->
         <img src="https://i.ibb.co/jZsHJfcr/foto-oficial-1-copia-2.jpg"
@@ -381,33 +383,33 @@
              width="1920" height="1080" fetchpriority="high" decoding="async">
         <div class="hero-overlay absolute inset-0" aria-hidden="true"></div>
 
-        <!-- NOMBRES Y FECHA (centrados en la pantalla) -->
-        <div class="relative flex-1 flex flex-col items-center justify-center space-y-2 pt-4 pb-8 z-10">
-            <span class="hero-fade hero-sub block text-xs uppercase font-medium text-white/95 track-35" style="--d: 0.2s">Nos casamos</span>
-            <h1 class="hero-in hero-title font-names text-5xl sm:text-6xl md:text-7xl font-normal leading-tight" style="--d: 0.5s">
+        <!-- NOMBRES Y FECHA (en la parte de abajo, para que se vean sus caras en la foto) -->
+        <div class="relative flex-1 flex flex-col items-center justify-end space-y-1 pt-4 pb-4 z-10">
+            <span class="hero-fade hero-sub block text-[10px] sm:text-xs uppercase font-medium text-white/95 track-35" style="--d: 0.2s">Nos casamos</span>
+            <h1 class="hero-in hero-title font-names text-[2.6rem] sm:text-5xl md:text-6xl font-normal leading-[1.05]" style="--d: 0.5s">
                 Mariajesús
-                <span class="hero-fade block font-serif text-3xl italic text-white/90 my-1" style="--d: 0.9s">&amp;</span>
+                <span class="hero-fade block font-serif text-2xl italic text-white/90" style="--d: 0.9s">&amp;</span>
                 Felipe
             </h1>
-            <p class="hero-fade hero-sub text-xs uppercase text-white/95 pt-4 track-30" style="--d: 1.5s">Sábado 10 de Abril, 2027 · El Monte</p>
+            <p class="hero-fade hero-sub text-[10px] sm:text-xs uppercase text-white/95 pt-2 track-22" style="--d: 1.5s">Sábado 10 de Abril, 2027 · El Monte</p>
         </div>
 
         <!-- CONTADOR E INDICADOR PARA SEGUIR BAJANDO -->
-        <div class="relative hero-fade w-full max-w-md mx-auto space-y-7 z-10" style="--d: 1.9s">
-            <div id="countdown" role="timer" aria-label="Cuenta regresiva para el matrimonio" class="grid grid-cols-4 gap-2 text-center py-4 px-5 bg-black/35 backdrop-blur-md rounded-2xl border border-white/25 text-white shadow-lg">
-                <div><span id="days" class="cd-num font-serif text-3xl font-bold">00</span><span class="block text-[10px] uppercase tracking-wider opacity-90">Días</span></div>
-                <div class="border-l border-white/15"><span id="hours" class="cd-num font-serif text-3xl font-bold">00</span><span class="block text-[10px] uppercase tracking-wider opacity-90">Horas</span></div>
-                <div class="border-l border-white/15"><span id="minutes" class="cd-num font-serif text-3xl font-bold">00</span><span class="block text-[10px] uppercase tracking-wider opacity-90">Min</span></div>
-                <div class="border-l border-white/15"><span id="seconds" class="cd-num font-serif text-3xl font-bold">00</span><span class="block text-[10px] uppercase tracking-wider opacity-90">Seg</span></div>
+        <div class="relative hero-fade w-full max-w-[300px] mx-auto space-y-4 z-10" style="--d: 1.9s">
+            <div id="countdown" role="timer" aria-label="Cuenta regresiva para el matrimonio" class="grid grid-cols-4 gap-1 text-center py-2 px-3 bg-black/35 backdrop-blur-md rounded-2xl border border-white/25 text-white shadow-lg">
+                <div><span id="days" class="cd-num font-serif text-2xl font-bold">00</span><span class="block text-[9px] uppercase tracking-wider opacity-90">Días</span></div>
+                <div class="border-l border-white/15"><span id="hours" class="cd-num font-serif text-2xl font-bold">00</span><span class="block text-[9px] uppercase tracking-wider opacity-90">Horas</span></div>
+                <div class="border-l border-white/15"><span id="minutes" class="cd-num font-serif text-2xl font-bold">00</span><span class="block text-[9px] uppercase tracking-wider opacity-90">Min</span></div>
+                <div class="border-l border-white/15"><span id="seconds" class="cd-num font-serif text-2xl font-bold">00</span><span class="block text-[9px] uppercase tracking-wider opacity-90">Seg</span></div>
             </div>
 
             <!-- DESLIZA PARA VER MÁS (se puede tocar para bajar) -->
-            <a href="#cuando-y-donde" id="scrollCue" class="scroll-cue flex flex-col items-center gap-3 text-[#FAF8F5]">
-                <span class="font-serif italic text-lg hero-sub">Desliza para ver los detalles</span>
+            <a href="#cuando-y-donde" id="scrollCue" class="scroll-cue flex flex-col items-center gap-2 text-[#FAF8F5]">
+                <span class="font-serif italic text-sm hero-sub">Desliza para ver los detalles</span>
                 <span class="cue-btn" aria-hidden="true">
                     <span class="ring"></span>
                     <span class="ring r2"></span>
-                    <svg class="chevron w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <svg class="chevron w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <path d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </span>
